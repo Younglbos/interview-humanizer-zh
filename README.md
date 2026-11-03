@@ -1,29 +1,31 @@
-# 采访稿去 AI 味 · interview-humanizer-zh
+# 豆包采访稿去 AI 味 · interview-humanizer-zh
 
-这是我专门为 **小苹果树** 开发的中文采访写作 Skill，面向新闻与新媒体专业的采访稿撰写、整理与润色：减少空话、重复和模板化表达，同时保留事实、信源、引语与受访者声音。
+这是我专门为 **小苹果树** 开发、用于 **豆包智能体** 的中文采访写作 Skill。它面向新闻与新媒体专业的采访稿撰写、整理与润色，减少空话、重复和模板化表达，同时保留事实、信源、引语与受访者声音。
 
 基于 [Humanizer-zh](https://github.com/op7418/Humanizer-zh) 的完整 31 项表达检查扩展，新增采访记录成稿及新闻、新媒体体裁规则。它是给 AI 助手读取的写作指引，不是独立软件或 AI 来源检测器，不保证任何检测器分数。
 
-## 安装
+## 在豆包中使用
 
-在终端运行（需要 Git 和支持 `npx` 的 Node.js；[Skills CLI 当前要求 Node.js 22.20 或以上](https://github.com/vercel-labs/skills#install-a-skill)）：
+### 对话中使用完整指令
 
-```bash
-npx skills add https://github.com/Younglbos/interview-humanizer-zh --skill interview-humanizer-zh -g
-```
+打开 [DOUBAO_PROMPT.md](DOUBAO_PROMPT.md)，复制完整内容，在豆包新对话中作为第一条消息发送，再提供采访材料和具体要求。若当前智能体配置入口支持自定义指令，也可将其作为配置素材；字段与长度限制以你使用的入口为准，不要截掉后面的事实、引语或表达规则。
 
-按提示选择所用的 AI 工具。`-g` 表示跨项目使用；只想装到当前项目可去掉。安装器及其联网操作由第三方 Skills CLI 提供，本技能本身没有运行脚本、API 密钥或付费服务依赖。安装后重启或重新加载所用工具，再按下方示例调用。
+这个文件已合并采访规则、体裁指南和上游完整 31 项表达检查，不需要豆包访问 GitHub 或读取本地 `references/` 路径。它用于在当前对话中提供指令，不表示已经安装为平台 Skill；新对话需要重新提供。若内容超过入口限制，应换用可容纳完整材料的入口，不能声称只读了一部分就已掌握全部规则。
 
-不使用安装器时，下载仓库 ZIP，解压后把包含 `SKILL.md` 的整个 `interview-humanizer-zh` 文件夹放入工具支持的 skills 目录。必须连同 `references/`、`agents/`、`NOTICE.md` 和 `LICENSE` 一起保留，不能只复制入口文件。
+### 正式发布豆包 Skill
+
+如果希望朋友在豆包中安装平台技能，需要另行完成豆包开放平台接入与审核。官方指南说明：开发者上传 ZIP 并提交审核，上架后用户在豆包工作客户端的“插件&技能&伙伴”中安装；接入前还需满足平台资质要求。具体要求见 [豆包官方 Skill 接入指南](https://open.doubao.com/document/doubao-developer-guide/skill-integration-guide)。
+
+当前 GitHub 仓库用于分发源码、规则和对话指令，尚未完成豆包平台校验、客户端安装测试或商店上架。GitHub 链接和 `npx skills add` 不是这里承诺的豆包安装入口。本项目无需连接器、API 密钥或联网工具即可执行文本编辑规则。
 
 ## 使用
 
-Codex 中可用 `$interview-humanizer-zh`；其他支持 Skills 的工具中可直接点名技能，具体唤起方式以工具为准。
+在豆包中提供完整指令后，直接说明要润色、整理成稿还是审阅；无需输入 Codex 的技能调用语法。
 
 **润色现有稿件：**
 
 ```text
-请使用 interview-humanizer-zh 润色下面的校园人物采访稿。
+请按刚才的采访写作规则，润色下面的校园人物采访稿。
 保留事实、直接引语和人物语气，不补写现场细节。
 [粘贴稿件；如有原始采访记录，一并提供]
 ```
@@ -31,7 +33,7 @@ Codex 中可用 `$interview-humanizer-zh`；其他支持 Skills 的工具中可�
 **采访记录成稿：**
 
 ```text
-请使用 interview-humanizer-zh，把以下采访记录整理为公众号人物稿。
+请按刚才的采访写作规则，把以下采访记录整理为公众号人物稿。
 读者：大学生。目标篇幅：约 1200 字，材料不足时不要扩写凑字。
 标注资料类型：逐字转写／采访摘要／现场笔记。
 保留匿名要求；正文后列出确实需要补采或核实的问题。
@@ -41,7 +43,7 @@ Codex 中可用 `$interview-humanizer-zh`；其他支持 Skills 的工具中可�
 **只做评审：**
 
 ```text
-使用 interview-humanizer-zh 审阅这份新闻采访稿，指出空话、归因和引语问题。
+请按刚才的采访写作规则审阅这份新闻采访稿，指出空话、归因和引语问题。
 给出具体建议，不修改文件。
 [粘贴稿件]
 ```
@@ -77,7 +79,9 @@ Codex 中可用 `$interview-humanizer-zh`；其他支持 Skills 的工具中可�
 
 ```text
 SKILL.md                         技能入口与采访边界
-agents/openai.yaml               Codex 展示信息
+DOUBAO_PROMPT.md                  豆包对话用完整指令
+scripts/build_doubao_prompt.py    从规则源文件生成完整指令
+agents/openai.yaml               可选的其他客户端展示信息
 references/humanizer-base.md     上游完整表达规则
 references/interview-writing.md  分体裁写作指南
 evals/cases.json                 采访场景评测输入及判断标准
@@ -86,6 +90,8 @@ evals/reviewed-examples.md        本次手工演练输出与核对
 NOTICE.md / LICENSE             来源及 MIT 许可
 ```
 
-评测重点是事实、引语、归因与任务范围，而非“像人程度”自评分。结构校验不能证明写作效果，有限样例也不代表跨模型稳定通过。具体范围见 [评测说明](evals/README.md)。
+评测重点是事实、引语、归因与任务范围，而非“像人程度”自评分。结构校验不能证明写作效果，有限样例也不代表跨模型稳定通过。目前尚未在豆包客户端实测。具体范围见 [评测说明](evals/README.md)。
+
+维护规则时先编辑 `SKILL.md` 和 `references/`，再运行 `python scripts/build_doubao_prompt.py` 更新完整指令。该脚本仅用于开发，不需要小苹果树在使用豆包时运行。
 
 本项目以 MIT 许可发布；原项目版权及来源说明见 [LICENSE](LICENSE) 和 [NOTICE.md](NOTICE.md)。

@@ -13,4 +13,4 @@
 
 本次对技能结构、引用文件和上游正文完整性做本地检查；[手工演练](reviewed-examples.md) 展示四个场景的输出和核对。演练由编写技能的同一助手完成，未进行独立模型盲测，也未验证跨模型成功率；其余案例提供给使用者继续评测，不声称全部行为测试通过。
 
-安装指令按 [Skills CLI 官方文档](https://github.com/vercel-labs/skills) 编写。是否完成实际安装需以运行记录为准，不以结构检查代替安装测试。
+豆包对话评测时，先提供根目录 `DOUBAO_PROMPT.md` 的完整内容，再按以上方法逐条提供案例。当前未完成豆包客户端实测或平台 Skill 接入校验；对话指令文件不代表已安装平台技能。平台接入方式参考 [豆包官方 Skill 接入指南](https://open.doubao.com/document/doubao-developer-guide/skill-integration-guide)。
